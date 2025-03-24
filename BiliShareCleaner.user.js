@@ -23,9 +23,8 @@
                     console.log('监听到分享按钮点击');
                 });
             }
-        });
-
-        const altBtn = document.querySelector('#share-btn-outer > div > span');
+            
+     const altBtn = document.querySelector('#share-btn-outer > div > span');
         if (altBtn && !altBtn.dataset.cleaned) {
             altBtn.dataset.cleaned = 'true';
             altBtn.addEventListener('click', () => {
@@ -33,7 +32,7 @@
                 console.log('监听到分享按钮点击');
             });
         }
-    });
+        });
 
         const altBtn1 = document.querySelector('#share-btn-outer > svg');
         if (altBtn1 && !altBtn1.dataset.cleaned) {
