@@ -1,11 +1,13 @@
 // ==UserScript==
-// @name         B站干净分享链接（多路径支持）
+// @name         B站干净分享链接
 // @namespace    http://tampermonkey.net/
-// @version      1.3
+// @version      1.4
 // @description  清除复制链接中的追踪参数
 // @author       Systina12
 // @match        *://www.bilibili.com/video/*
 // @grant        GM_setClipboard
+// @updateURL    https://github.com/Systina12/BiliShareCleaner/edit/main/BiliShareCleaner.js
+// @downloadURL  https://github.com/Systina12/BiliShareCleaner/edit/main/BiliShareCleaner.js
 // ==/UserScript==
 
 (function () {
