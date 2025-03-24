@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         B站干净分享链接
 // @namespace    http://tampermonkey.net/
-// @version      1.4
+// @version      1.5
 // @description  清除复制链接中的追踪参数
 // @author       Systina12
 // @match        *://www.bilibili.com/video/*
@@ -20,6 +20,7 @@
                 btn.dataset.cleaned = 'true';
                 btn.addEventListener('click', () => {
                     setTimeout(copyCleanLink, 100);
+                    console.log('监听到分享按钮点击');
                 });
             }
         });
@@ -29,7 +30,17 @@
             altBtn.dataset.cleaned = 'true';
             altBtn.addEventListener('click', () => {
                 setTimeout(copyCleanLink, 100);
-                console.log('监听到备用分享按钮点击');
+                console.log('监听到分享按钮点击');
+            });
+        }
+    });
+
+        const altBtn1 = document.querySelector('#share-btn-outer > svg');
+        if (altBtn1 && !altBtn1.dataset.cleaned) {
+            altBtn1.dataset.cleaned = 'true';
+            altBtn1.addEventListener('click', () => {
+                setTimeout(copyCleanLink, 100);
+                console.log('监听到分享图标按钮点击');
             });
         }
     });
