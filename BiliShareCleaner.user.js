@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         B站干净分享链接
+// @name         B站分享链接清理
 // @namespace    http://tampermonkey.net/
 // @version      1.9
 // @description  清除复制链接中的追踪参数
