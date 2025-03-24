@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         B站干净分享链接
 // @namespace    http://tampermonkey.net/
-// @version      1.5
+// @version      1.6
 // @description  清除复制链接中的追踪参数
 // @author       Systina12
 // @match        *://www.bilibili.com/video/*
@@ -14,32 +14,35 @@
     'use strict';
 
     const observer = new MutationObserver(() => {
+        // 处理 .copy-link 按钮
         const copyBtns = document.querySelectorAll('.copy-link');
         copyBtns.forEach(btn => {
             if (!btn.dataset.cleaned) {
                 btn.dataset.cleaned = 'true';
                 btn.addEventListener('click', () => {
                     setTimeout(copyCleanLink, 100);
-                    console.log('监听到分享按钮点击');
+                    console.log('监听到 copy-link 分享按钮点击');
                 });
             }
-            
-     const altBtn = document.querySelector('#share-btn-outer > div > span');
+        });
+
+        // 处理 div > span 类型的分享按钮
+        const altBtn = document.querySelector('#share-btn-outer > div > span');
         if (altBtn && !altBtn.dataset.cleaned) {
             altBtn.dataset.cleaned = 'true';
             altBtn.addEventListener('click', () => {
                 setTimeout(copyCleanLink, 100);
-                console.log('监听到分享按钮点击');
+                console.log('监听到 span 类型分享按钮点击');
             });
         }
-        });
 
+        // 处理 svg 图标型分享按钮
         const altBtn1 = document.querySelector('#share-btn-outer > svg');
         if (altBtn1 && !altBtn1.dataset.cleaned) {
             altBtn1.dataset.cleaned = 'true';
             altBtn1.addEventListener('click', () => {
                 setTimeout(copyCleanLink, 100);
-                console.log('监听到分享图标按钮点击');
+                console.log('监听到 svg 图标分享按钮点击');
             });
         }
     });
