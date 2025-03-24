@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         B站干净分享链接
 // @namespace    http://tampermonkey.net/
-// @version      1.8
+// @version      1.9
 // @description  清除复制链接中的追踪参数
 // @author       Systina12
 // @match        *://www.bilibili.com/video/*
@@ -61,6 +61,39 @@
                 console.log('监听到微信分享按钮点击');
             });
         }
+        const altBtn4 = document.querySelector('#share-btn-weixin > svg');
+        if (altBtn4 && !altBtn4.dataset.cleaned) {
+            altBtn4.dataset.cleaned = 'true';
+            altBtn4.addEventListener('click', () => {
+                setTimeout(copyCleanLink, 300);
+                console.log('监听到微信分享按钮点击');
+            });
+        }
+        const altBtn5 = document.querySelector('#share-btn-weixin > span');
+        if (altBtn5 && !altBtn5.dataset.cleaned) {
+            altBtn5.dataset.cleaned = 'true';
+            altBtn5.addEventListener('click', () => {
+                setTimeout(copyCleanLink, 300);
+                console.log('监听到微信分享按钮点击');
+            });
+        }
+        const altBtn6 = document.querySelector('#share-btn-qq > svg');
+        if (altBtn6 && !altBtn6.dataset.cleaned) {
+            altBtn6.dataset.cleaned = 'true';
+            altBtn6.addEventListener('click', () => {
+                setTimeout(copyCleanLink, 300);
+                console.log('监听到qq分享按钮点击');
+            });
+        }
+        const altBtn7 = document.querySelector('#share-btn-qq > span');
+        if (altBtn7 && !altBtn7.dataset.cleaned) {
+            altBtn7.dataset.cleaned = 'true';
+            altBtn7.addEventListener('click', () => {
+                setTimeout(copyCleanLink, 300);
+                console.log('监听到qq分享按钮点击');
+            });
+        }
+    
     });
 
     // 通用的复制逻辑（链接清洗 + 写入剪贴板）
