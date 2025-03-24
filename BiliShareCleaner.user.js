@@ -6,8 +6,8 @@
 // @author       Systina12
 // @match        *://www.bilibili.com/video/*
 // @grant        GM_setClipboard
-// @updateURL    https://github.com/Systina12/BiliShareCleaner/edit/main/BiliShareCleaner.js
-// @downloadURL  https://github.com/Systina12/BiliShareCleaner/edit/main/BiliShareCleaner.js
+// @updateURL    https://raw.githubusercontent.com/Systina12/BiliShareCleaner/main/BiliShareCleaner.user.js
+// @downloadURL  https://raw.githubusercontent.com/Systina12/BiliShareCleaner/main/BiliShareCleaner.user.js
 // ==/UserScript==
 
 (function () {
