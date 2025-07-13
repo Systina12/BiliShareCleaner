@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         B站分享链接清理
 // @namespace    http://tampermonkey.net/
-// @version      1.9.1
+// @version      2.0
 // @description  清除复制链接中的追踪参数
 // @author       Systina12
 // @match        *://www.bilibili.com/video/*
@@ -10,104 +10,42 @@
 // @downloadURL  https://raw.githubusercontent.com/Systina12/BiliShareCleaner/main/BiliShareCleaner.user.js
 // ==/UserScript==
 
-(function () {
+(function() {
     'use strict';
-
-    const observer = new MutationObserver(() => {
-        // 处理 .copy-link 按钮
-        const copyBtns = document.querySelectorAll('.copy-link');
-        copyBtns.forEach(btn => {
-            if (!btn.dataset.cleaned) {
-                btn.dataset.cleaned = 'true';
-                btn.addEventListener('click', () => {
-                    setTimeout(copyCleanLink, 300);
-                    console.log('监听到 copy-link 分享按钮点击');
-                });
-            }
-        });
-
-        // 处理 div > span 类型的分享按钮
-        const altBtn = document.querySelector('#share-btn-outer > div > span');
-        if (altBtn && !altBtn.dataset.cleaned) {
-            altBtn.dataset.cleaned = 'true';
-            altBtn.addEventListener('click', () => {
-                setTimeout(copyCleanLink, 300);
-                console.log('监听到 span 类型分享按钮点击');
-            });
-        }
-
-        // 处理 svg 图标型分享按钮
-        const altBtn1 = document.querySelector('#share-btn-outer > svg');
-        if (altBtn1 && !altBtn1.dataset.cleaned) {
-            altBtn1.dataset.cleaned = 'true';
-            altBtn1.addEventListener('click', () => {
-                setTimeout(copyCleanLink, 300);
-                console.log('监听到 svg 图标分享按钮点击');
-            });
-        }
-        const altBtn2 = document.querySelector('#share-btn-qq');
-        if (altBtn2 && !altBtn2.dataset.cleaned) {
-            altBtn2.dataset.cleaned = 'true';
-            altBtn2.addEventListener('click', () => {
-                setTimeout(copyCleanLink, 300);
-                console.log('监听到qq分享按钮点击');
-            });
-        }
-        const altBtn3 = document.querySelector('#share-btn-weixin');
-        if (altBtn3 && !altBtn3.dataset.cleaned) {
-            altBtn3.dataset.cleaned = 'true';
-            altBtn3.addEventListener('click', () => {
-                setTimeout(copyCleanLink, 300);
-                console.log('监听到微信分享按钮点击');
-            });
-        }
-        const altBtn4 = document.querySelector('#share-btn-weixin > svg');
-        if (altBtn4 && !altBtn4.dataset.cleaned) {
-            altBtn4.dataset.cleaned = 'true';
-            altBtn4.addEventListener('click', () => {
-                setTimeout(copyCleanLink, 300);
-                console.log('监听到微信分享按钮点击');
-            });
-        }
-        const altBtn5 = document.querySelector('#share-btn-weixin > span');
-        if (altBtn5 && !altBtn5.dataset.cleaned) {
-            altBtn5.dataset.cleaned = 'true';
-            altBtn5.addEventListener('click', () => {
-                setTimeout(copyCleanLink, 300);
-                console.log('监听到微信分享按钮点击');
-            });
-        }
-        const altBtn6 = document.querySelector('#share-btn-qq > svg');
-        if (altBtn6 && !altBtn6.dataset.cleaned) {
-            altBtn6.dataset.cleaned = 'true';
-            altBtn6.addEventListener('click', () => {
-                setTimeout(copyCleanLink, 300);
-                console.log('监听到qq分享按钮点击');
-            });
-        }
-        const altBtn7 = document.querySelector('#share-btn-qq > span');
-        if (altBtn7 && !altBtn7.dataset.cleaned) {
-            altBtn7.dataset.cleaned = 'true';
-            altBtn7.addEventListener('click', () => {
-                setTimeout(copyCleanLink, 300);
-                console.log('监听到qq分享按钮点击');
-            });
-        }
     
-    });
-
-    // 通用的复制逻辑（链接清洗 + 写入剪贴板）
-    function copyCleanLink() {
-        let cleanURL = location.href.split('?')[0].split('&')[0];
-        let title = document.title.replace(/_哔哩哔哩_bilibili$/, '').trim();
-        const cleanText = `${title} ${cleanURL}`;
-        GM_setClipboard(cleanText);
-        console.log('复制成功：', cleanText);
+    const cleanURL = () => {
+        const url = new URL(location.href);
+        return url.origin + url.pathname + (url.hash || '');
+    };
+    
+    // 事件委托处理分享按钮
+    const handleShareClick = (event) => {
+        const target = event.target;
+        const shareBtn = target.closest('.copy-link, [id^="share-btn-"]');
+        
+        if (shareBtn) {
+            // 阻止事件冒泡和默认行为
+            event.stopImmediatePropagation();
+            event.preventDefault();
+            
+            const cleanURLText = cleanURL();
+            const title = document.title.replace(/_哔哩哔哩_bilibili$/, '').trim();
+            const cleanText = `${title} ${cleanURLText}`;
+            
+            GM_setClipboard(cleanText);
+            console.log('BiliCleaner: 复制成功', cleanText);
+        }
+    };
+    
+    // 初始化事件监听
+    const init = () => {
+        document.addEventListener('click', handleShareClick, true);
+    };
+    
+    // 页面加载完成后初始化
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+    } else {
+        init();
     }
-
-    // 启动 DOM 监听
-    observer.observe(document.body, {
-        childList: true,
-        subtree: true
-    });
 })();
