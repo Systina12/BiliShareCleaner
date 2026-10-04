@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         B站分享链接清理
 // @namespace    http://tampermonkey.net/
-// @version      2.0
+// @version      2.0.1
 // @description  清除复制链接中的追踪参数
 // @author       Systina12
 // @match        *://www.bilibili.com/video/*
@@ -15,7 +15,15 @@
     
     const cleanURL = () => {
         const url = new URL(location.href);
-        return url.origin + url.pathname + (url.hash || '');
+        const params = new URLSearchParams();
+        // 保留分 P 和播放位置参数
+        for (const [key, value] of url.searchParams) {
+            if (key === 'p' || key === 't') {
+                params.append(key, value);
+            }
+        }
+        url.search = params.toString();
+        return url.origin + url.pathname + url.search + (url.hash || '');
     };
     
     // 事件委托处理分享按钮
